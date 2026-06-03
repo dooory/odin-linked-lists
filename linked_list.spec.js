@@ -188,3 +188,64 @@ describe("Insert values in list at index", () => {
     expect(list.at(4)).toBe("Rachel");
   })
 })
+
+describe("Remove value from list at given index", () => {
+  let list;
+
+  beforeEach(() => {
+    list = new LinkedList();
+  })
+
+  test("Trying to remove a value from an empty list throws RangeError", () => {
+    expect(() => {
+      list.removeAt(3);
+    }).toThrow();
+  })
+
+  test("Trying to insert at out of bounds index throws RangeError", () => {
+    list.append("Element 0");
+    list.append("Element 1");
+    list.append("Element 2");
+
+    expect(() => {
+      list.removeAt(3);
+    }).toThrow();
+  })
+
+  test("Removes tail node", () => {
+    list.append("Element 0");
+    list.append("Element 1");
+
+    list.removeAt(1);
+
+    expect(list.tail()).toBeUndefined();
+  })
+
+  test("Removes head node", () => {
+    list.append("Element 0");
+
+    list.removeAt(0);
+
+    expect(list.head()).toBeUndefined();
+  })
+
+  test("Makes tail node, head node if head node is removed", () => {
+    list.append("Element 0");
+    list.append("Element 1");
+
+    list.removeAt(0);
+
+    expect(list.tail()).toBeUndefined();
+    expect(list.head()).toBe("Element 1");
+  })
+
+  test("Makes node before tail node the new tail node", () => {
+    list.append("Element 0");
+    list.append("Element 1");
+    list.append("Element 2");
+
+    list.removeAt(2);
+
+    expect(list.tail()).toBe("Element 1");
+  })
+})

@@ -212,4 +212,44 @@ export class LinkedList {
 
     lastNewNode.nextNode = oldNextNode;
   }
+
+  removeAt(index) {
+    if (!this.#head) {
+      throw new RangeError(`Index <${index}> is out of bounds`);
+    }
+
+    let indexNode = this.#getNodeAtIndex(index);
+    let prevIndexNode = this.#getNodeAtIndex(index - 1);
+
+    if (this.#head === indexNode) {
+      if (indexNode.nextNode) {
+        if (indexNode.nextNode === this.#tail) {
+          this.#tail = null;
+        }
+
+        this.#head = indexNode.nextNode;
+      } else {
+        this.#head = null;
+      }
+
+      return
+    }
+
+    if (this.#tail === indexNode) {
+      if (prevIndexNode !== this.#head) {
+        this.#tail = prevIndexNode;
+      } else {
+        this.#tail = null;
+      }
+
+      return
+    }
+
+    if (!indexNode) {
+      throw new RangeError(`Index <${index}> is out of bounds`);
+    }
+
+    prevIndexNode.nextNode = indexNode.nextNode;
+    indexNode.nextNode = null;
+  }
 }
