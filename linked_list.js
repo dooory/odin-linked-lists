@@ -172,30 +172,39 @@ export class LinkedList {
     return `( ${array.join(" ) -> ( ")} ) -> null`;
   }
 
+  #getNodeAtIndex(index) {
+    let node = this.#head;
+    let currIndex = 0;
+
+    while (currIndex !== index) {
+      if (!node) {
+        return undefined;
+      }
+      currIndex += 1;
+      node = node.nextNode;
+    }
+
+    return node
+  }
+
   insertAt(index, ...values) {
     if (!this.#head) {
       throw new RangeError(`Index <${index}> is out of bounds`);
     }
 
-    let nodeAtIndex = this.#head;
-    let currIndex = 0;
+    let prevIndexNode = this.#getNodeAtIndex(index - 1);
 
-    while (currIndex !== index - 1 && nodeAtIndex) {
-      currIndex += 1;
-      nodeAtIndex = nodeAtIndex.nextNode;
-    }
-
-    if (!nodeAtIndex) {
+    if (!prevIndexNode) {
       throw new RangeError(`Index <${index}> is out of bounds`);
     }
 
-    let oldNextNode = nodeAtIndex.nextNode;
+    let oldNextNode = prevIndexNode.nextNode;
 
     let lastNewNode = new Node(values[0]);
-    nodeAtIndex.nextNode = lastNewNode;
+    prevIndexNode.nextNode = lastNewNode;
 
-    for (let i = 0; i < values.length - 1; i++) {
-      let currNewNode = new Node(values[i + 1]);
+    for (let i = 1; i < values.length; i++) {
+      let currNewNode = new Node(values[i]);
 
       lastNewNode.nextNode = currNewNode;
       lastNewNode = currNewNode;
