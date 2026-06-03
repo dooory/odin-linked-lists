@@ -154,3 +154,37 @@ describe("Convert a list to string using toString()", () => {
     expect(list.toString()).toBe("");
   })
 })
+
+describe("Insert values in list at index", () => {
+  let list = new LinkedList();
+
+  test("Trying to insert a value into empty list throws RangeError", () => {
+    expect(() => {
+      list.insertAt(3, "Great Node");
+    }).toThrow();
+  })
+
+  test("Trying to insert at out of bounds index throws RangeError", () => {
+    list.append("Elle");
+    list.append("Emma");
+    list.append("Ezra");
+
+    expect(() => {
+      list.insertAt(10, "New Node!", "Another One?")
+    }).toThrow();
+  })
+
+  test("Inserts an values at a given index", () => {
+    list.insertAt(1, "Ender");
+
+    expect(list.at(1)).toBe("Ender");
+  })
+
+  test("Inserts multiple values at a given index", () => {
+    list.insertAt(2, "Richy", "Ray", "Rachel");
+
+    expect(list.at(2)).toBe("Richy");
+    expect(list.at(3)).toBe("Ray");
+    expect(list.at(4)).toBe("Rachel");
+  })
+})

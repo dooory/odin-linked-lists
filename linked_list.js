@@ -171,4 +171,36 @@ export class LinkedList {
 
     return `( ${array.join(" ) -> ( ")} ) -> null`;
   }
+
+  insertAt(index, ...values) {
+    if (!this.#head) {
+      throw new RangeError(`Index <${index}> is out of bounds`);
+    }
+
+    let nodeAtIndex = this.#head;
+    let currIndex = 0;
+
+    while (currIndex !== index - 1 && nodeAtIndex) {
+      currIndex += 1;
+      nodeAtIndex = nodeAtIndex.nextNode;
+    }
+
+    if (!nodeAtIndex) {
+      throw new RangeError(`Index <${index}> is out of bounds`);
+    }
+
+    let oldNextNode = nodeAtIndex.nextNode;
+
+    let lastNewNode = new Node(values[0]);
+    nodeAtIndex.nextNode = lastNewNode;
+
+    for (let i = 0; i < values.length - 1; i++) {
+      let currNewNode = new Node(values[i + 1]);
+
+      lastNewNode.nextNode = currNewNode;
+      lastNewNode = currNewNode;
+    }
+
+    lastNewNode.nextNode = oldNextNode;
+  }
 }
